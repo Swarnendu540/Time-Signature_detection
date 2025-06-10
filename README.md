@@ -1,99 +1,128 @@
-🕒 Time Signature Detection (Classification of 3/4, 4/4, 5/4, 7/4)
-📜 Abstract
+📌 Abstract
 
-This project presents a deep learning-based approach to automatically detect time signatures (meters) from musical audio files. The task is framed as a 4-class classification problem involving meters 3/4, 4/4, 5/4, and 7/4. Using a curated dataset of 2800 labeled audio files, we extract mel spectrogram features and train models including CNNs, ResNet-18, and EfficientNet to classify the rhythmic structure. Accurate detection of musical meter is critical in music theory analysis, music education, AI-based composition, and indexing of large-scale music databases.
+This project explores the automatic detection of musical time signatures from raw audio recordings. Framed as a 4-class classification problem (3/4, 4/4, 5/4, 7/4), it leverages deep learning techniques to extract rhythmic patterns using mel spectrograms and classify them using models such as Custom CNNs, ResNet-18, and EfficientNet-B0. We work with a curated dataset of 2800 audio samples, applying robust preprocessing, augmentation, and training strategies to achieve high classification accuracy. This pipeline contributes significantly to music information retrieval, AI-assisted music tools, and educational software.
+📖 Table of Contents
+
+    Introduction
+
+    Background
+
+    Motivation
+
+    Objectives
+
+    Dataset Description
+
+    Feature Engineering
+
+    Data Preprocessing
+
+    Models
+
+    Tools and Libraries
+
+    Training Process
+
+    Results
+
+    Evaluation Metrics
+
+    Performance Analysis
+
+    Limitations
+
+    Conclusion
+
+    Key Findings
+
+    Real-World Applications
+
+    Future Work
+
+    Project Structure
+
 📘 Introduction
 
-In musical analysis, the time signature (or meter) is a fundamental property that defines the rhythmic organization of a piece. Despite being vital for tasks like automatic transcription or accompaniment, meter is often overlooked in machine learning pipelines, especially when dealing with raw audio. This project aims to fill this gap by developing a robust, scalable pipeline for time signature detection from real audio recordings.
-📚 Background
+Time signature, or meter, is the rhythmic foundation of music. Automatically identifying it from raw audio enables intelligent music processing, understanding, and composition. This project builds a pipeline to detect time signatures directly from WAV files, using modern deep learning methods.
+🧠 Background
 
-While much of the literature in Music Information Retrieval (MIR) focuses on tasks like genre classification or mood detection, rhythmic structure classification is less explored due to its complexity. Unlike symbolic data (e.g., MIDI), raw audio presents challenges such as tempo variation, expressive timing, and acoustic noise. This project builds on techniques from MIR and deep learning to detect rhythmic structure in raw audio using supervised classification.
+Traditional music analysis focuses on symbolic representations like MIDI. However, real-world applications often involve raw, noisy audio. In this project, we use deep learning on mel spectrograms to approximate temporal rhythmic structure and identify meter without relying on symbolic data.
 💡 Motivation
 
-Traditional tools either assume known time signatures or rely on symbolic formats. In many real-world contexts (e.g., YouTube recordings, live performances), only raw audio is available. Hence, a deep learning system capable of identifying time signatures from such data can significantly aid:
+Most music AI systems skip over time signature analysis or depend on symbolic input. We aim to:
 
-    Music educators
+    Detect rhythmic structure directly from raw audio
 
-    Composers
+    Assist educators, composers, and researchers
 
-    Musicologists
-
-    Digital music libraries
+    Improve MIR tools with accurate time signature tagging
 
 🎯 Objectives
 
-    Detect 3/4, 4/4, 5/4, and 7/4 meters from raw audio.
+    Build a robust classifier for time signatures (3/4, 4/4, 5/4, 7/4)
 
-    Evaluate multiple deep learning models, including EfficientNet.
+    Apply data augmentation to increase robustness
 
-    Provide a reusable, scalable codebase for future research and industry applications.
+    Evaluate different deep learning models
+
+    Visualize and analyze classification results
 
 📁 Dataset Description
 
-    Name: Meter 2800
+    Total Samples: 2800 WAV files
 
-    Size: 2800 audio files
+    Time Signatures: 3/4, 4/4, 5/4, 7/4
 
-    Format: WAV (converted from MP3)
+    Sources: FMA, MAG, OWN (converted from MP3)
 
-    Labels: 3/4, 4/4, 5/4, 7/4
+    Preprocessing: MP3 ➝ WAV ➝ Mel Spectrograms
 
-    Sources: FMA, MAG, and OWN collections
+    Augmentation: Time-stretching, pitch-shifting via audiomentations
 
-    Splits: Training, Validation, and Test
+🎼 Feature Engineering
 
-    Augmentation: Time-stretching, pitch-shifting (using audiomentations)
+    Mel Spectrograms extracted using librosa
 
-🧮 Features
+    128 mel bands with time-frequency structure
 
-    Mel Spectrograms: Captures time-frequency dynamics
-
-    Sample Rate: 22,050 Hz standardized
-
-    Window Size & Hop Length: Optimized for rhythmic cues
-
-    Augmented Features: Improved generalization
+    Fixed-length windows for consistent input
 
 🧹 Data Preprocessing
 
-    Mount and extract compressed MP3 datasets
+    Unzip and convert MP3s to WAV
 
-    Convert to WAV using pydub
+    Apply augmentation (pitch, tempo)
 
-    Apply augmentation (tempo, pitch)
+    Extract mel spectrograms
 
-    Extract mel spectrograms via librosa
+    Save data to CSV with labels
 
-    Create CSV metadata for training
+    Visualize sample spectrograms
 
-🤖 Models Deployed
-✅ CNN (Custom)
+🧠 Models
+✅ Custom CNN
 
-    2D convolution layers
+    Simple 2D CNN with BatchNorm + ReLU
 
-    BatchNorm + ReLU
-
-    Best for simple baseline
+    Lightweight and easy to train
 
 ✅ ResNet-18
 
     Pretrained on ImageNet
 
-    Transfer learning via finetuning
+    Finetuned for 4-class classification
 
-    Good balance between accuracy and speed
+✅ EfficientNet-B0 ⭐
 
-✅ EfficientNet-B0
+    Most accurate model
 
-    State-of-the-art accuracy/parameter tradeoff
+    High efficiency with low parameter count
 
-    Handles deeper representations with fewer resources
-
-    Best performance on test data
+    Best performance on test set
 
 🛠️ Tools and Libraries
 
-    Python, Pandas, NumPy
+    Python, NumPy, Pandas
 
     Librosa, Pydub, Audiomentations
 
@@ -101,85 +130,85 @@ Traditional tools either assume known time signatures or rely on symbolic format
 
     Matplotlib, Seaborn
 
-    Google Colab with GPU (T4)
+    Google Colab (T4 GPU + AMP)
 
 🧪 Training Process
 
     Optimizer: Adam
 
-    Learning Rate: 1e-3 with scheduler
-
-    Batch Size: 64
+    Loss: CrossEntropyLoss
 
     Epochs: ~25
 
-    Loss: CrossEntropy
+    Batch Size: 64
 
-    AMP (Automatic Mixed Precision) for faster GPU training
+    Mixed Precision (AMP): Enabled
 
-📊 Results Summary
-Model	Accuracy	F1 Score	Comments
-CNN (Custom)	~75%	Moderate	Baseline performance
-ResNet-18	~82%	Good	Generalizes well
+    Train/Validation/Test Split: Stratified
+
+📊 Results
+Model	Accuracy	F1 Score	Notes
+CNN (Custom)	~75%	Moderate	Good for baseline
+ResNet-18	~82%	Strong	Transfer learning works well
 EfficientNet	~87%	Best	Most accurate and efficient
 📉 Evaluation Metrics
 
     Accuracy
 
-    Class-wise Precision & Recall
+    Precision / Recall / F1-Score
 
-    Macro/Micro F1-Score
+    Class-wise Performance
 
-    Confusion Matrices (per epoch)
+    Confusion Matrix (per epoch)
 
     Loss & Accuracy Curves
 
 📈 Performance Analysis
 
-    EfficientNet outperformed other models on all metrics.
+    EfficientNet outperformed all models.
 
-    Class imbalance (fewer 5/4 & 7/4 examples) led to minor misclassifications.
+    3/4 and 4/4 sometimes confused due to similar rhythm.
 
-    Augmentation helped reduce overfitting and improved robustness.
+    Augmentation greatly improved generalization.
+
+    Minor class imbalance affected 5/4 and 7/4 accuracy.
 
 ⚠️ Limitations
 
-    Dataset is relatively small for deep networks.
+    Dataset size is moderate for deep learning.
 
-    Real-world recordings may have background noise and tempo shifts.
+    Ambiguity in rhythm for closely spaced classes.
 
-    Ambiguous transitions between meters remain challenging.
+    Augmentation cannot fully mimic real-world complexity.
 
 ✅ Conclusion
 
-We demonstrate a successful pipeline for audio-based time signature detection. Among various models, EfficientNet provides the most accurate results. With proper preprocessing and feature extraction, detecting rhythmic structure from raw audio is feasible and scalable.
+We successfully built a deep learning pipeline to classify time signatures from raw audio. EfficientNet-B0 emerged as the best model. This work shows that rhythm classification from raw signals is not only feasible but can be applied to real-world music systems.
 🔑 Key Findings
 
-    Mel spectrograms are effective features for capturing rhythmic structure.
+    Mel spectrograms are suitable features for meter detection.
 
-    EfficientNet offers the best accuracy-complexity tradeoff.
+    EfficientNet achieves high accuracy with fewer resources.
 
-    Audio augmentation boosts generalization and class separation.
+    Augmentation techniques improve model generalization.
 
-🌍 Real-life Applications
+🌍 Real-World Applications
 
-This project enables real-time or offline classification of musical meters, which has applications in:
+    🎓 Music Education: Auto-evaluation tools for rhythm training
 
-    Music Education: Automated rhythm feedback tools
+    🧠 MIR Systems: Improved search and tagging by meter
 
-    Music Production: Smart DAWs that adapt to rhythm
+    🎼 Composition Tools: AI-assisted music generators with rhythm awareness
 
-    Music Retrieval: Search by time signature
-
-    Musicological Research: Analyzing temporal evolution of musical forms
+    🔎 Musicology: Quantitative rhythm analysis of large corpora
 
 🔭 Future Work
 
-    Integrate beat tracking or tempo curves for hybrid features
+    Add compound and irregular time signatures (e.g., 6/8, 9/8, 11/8)
 
-    Expand dataset to more meters (e.g., 6/8, 9/8, compound meters)
+    Explore beat tracking + spectrogram fusion
 
-    Experiment with transformer models for sequence prediction
+    Experiment with transformer-based audio models
 
-    Build a web app for interactive meter detection
+    Deploy as a web app or VST plugin
 
