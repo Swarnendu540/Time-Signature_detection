@@ -84,17 +84,23 @@ Most music AI systems skip over time signature analysis or depend on symbolic in
 
 🗃️ Data Sources Breakdown (Table 1):
 Data Source	Total Annotated	Train	Test
-FMA	851	598	253
-GTZAN	911	632	279
-MAG	925	652	273
-OWN	113	78	35
-Total	2800	1960	840
+| **Data Source** | **Total Annotated** | **Train** | **Test** |
+| --------------- | ------------------- | --------- | -------- |
+| FMA             | 851                 | 598       | 253      |
+| GTZAN           | 911                 | 632       | 279      |
+| MAG             | 925                 | 652       | 273      |
+| OWN             | 113                 | 78        | 35       |
+| **Total**       | **2800**            | **1960**  | **840**  |
+
 🕒 Meter Class Distribution (Table 2):
 Meter Class	Number of Files
-3/4	1200
-4/4	1200
-5/4	200
-7/4	200
+| **Meter Class** | **Number of Files** |
+| --------------- | ------------------- |
+| 3/4             | 1200                |
+| 4/4             | 1200                |
+| 5/4             | 200                 |
+| 7/4             | 200                 |
+
 
 The dataset is imbalanced, with 3/4 and 4/4 dominating the class distribution.
 
