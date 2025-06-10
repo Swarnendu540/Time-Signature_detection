@@ -67,17 +67,36 @@ Most music AI systems skip over time signature analysis or depend on symbolic in
 
     Visualize and analyze classification results
 
-📁 Dataset Description
+📊 Meter2800 Dataset Overview
+📁 General Information:
 
-    Total Samples: 2800 WAV files
+    Total audio tracks: 2800
 
-    Time Signatures: 3/4, 4/4, 5/4, 7/4
+    Total size: ~2.26 GB
 
-    Sources: FMA, MAG, OWN (converted from MP3)
+    Genres included: Rock, Pop, Classical, Jazz
 
-    Preprocessing: MP3 ➝ WAV ➝ Mel Spectrograms
+    Annotations available:
 
-    Augmentation: Time-stretching, pitch-shifting via audiomentations
+        Tempo
+
+        Meter class (time signature)
+
+🗃️ Data Sources Breakdown (Table 1):
+Data Source	Total Annotated	Train	Test
+FMA	851	598	253
+GTZAN	911	632	279
+MAG	925	652	273
+OWN	113	78	35
+Total	2800	1960	840
+🕒 Meter Class Distribution (Table 2):
+Meter Class	Number of Files
+3/4	1200
+4/4	1200
+5/4	200
+7/4	200
+
+The dataset is imbalanced, with 3/4 and 4/4 dominating the class distribution.
 
 🎼 Feature Engineering
 
